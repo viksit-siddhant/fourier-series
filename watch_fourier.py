@@ -6,17 +6,23 @@ import math
 import cmath
 
 list_of_cn = []
+lower_coeff = -50
+upper_coeff = 50
 
 with open('cn_square.pkl','rb') as f:
     list_of_cn = pickle.load(f)
+num_coeffs = len(list_of_cn)
 
+if num_coeffs != upper_coeff-lower_coeff:
+    raise ValueError("Range of coefficients set isn't consistent with table of coefficients")
+    
 style.use('ggplot')
 fig = plt.figure()
 ax = plt.axes(xlim=(-2,2), ylim=(-2,2))
 
 vectors = []
 
-for i in range(101):
+for i in range(num_coeffs+1):
     line, = ax.plot([], [])
     vectors.append(line)
 
@@ -30,7 +36,7 @@ class Square:
     
     def f(self,t):
         results = []
-        for i,j in enumerate(range(-50,51)):
+        for i,j in enumerate(range(lower_coeff,upper_coeff)):
             results.append(list_of_cn[i]*cmath.exp(2*math.pi*1j*j*t))
         return results
 
@@ -50,7 +56,7 @@ def animate(i):
     results = square.f(i)
     x = 0
     y = 0
-    for i in range(101):
+    for i in range(num_coeffs+1):
         prev_x = x
         prev_y = y
         x += results[i].real
