@@ -18,8 +18,9 @@ def num_integrate(f,lower_lim=0,upper_lim=1,delta_x=0.01,n=None):
         result += f(y,n)*delta_x
         y += delta_x
     return result
-
-for i in range(-50,51):
+lower_coeff = -50
+upper_coeff = 50
+for i in range(lower_coeff,upper_coeff+1):
     list_of_cn.append(num_integrate(f,n=i,delta_x=0.0005))
 
 with open('cn_square.pkl','wb') as f:
